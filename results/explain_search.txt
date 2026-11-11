@@ -1,0 +1,47 @@
+PostgreSQL EXPLAIN ANALYZE
+                                                                       QUERY PLAN                                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit (actual time=13.887..13.892 rows=20 loops=1)
+   ->  Sort (actual time=13.886..13.889 rows=20 loops=1)
+         Sort Key: ((COALESCE(avg(r.rating), '0'::numeric))::double precision) DESC, t.id
+         Sort Method: top-N heapsort  Memory: 34kB
+         ->  Nested Loop (actual time=12.108..13.834 rows=76 loops=1)
+               ->  Nested Loop (actual time=12.063..12.863 rows=76 loops=1)
+                     ->  Seq Scan on tour_categories c (actual time=0.009..0.010 rows=1 loops=1)
+                           Filter: (id = 3)
+                           Rows Removed by Filter: 7
+                     ->  Hash Semi Join (actual time=12.052..12.844 rows=76 loops=1)
+                           Hash Cond: (t.id = tl.tour_id)
+                           ->  Bitmap Heap Scan on tours t (actual time=0.194..0.888 rows=943 loops=1)
+                                 Recheck Cond: ((category_id = 3) AND (price >= '10000'::numeric) AND (price <= '40000'::numeric) AND (NOT is_deleted))
+                                 Heap Blocks: exact=486
+                                 ->  Bitmap Index Scan on idx_tours_category_price (actual time=0.143..0.143 rows=943 loops=1)
+                                       Index Cond: ((category_id = 3) AND (price >= '10000'::numeric) AND (price <= '40000'::numeric))
+                           ->  Hash (actual time=11.823..11.824 rows=3335 loops=1)
+                                 Buckets: 8192  Batches: 1  Memory Usage: 182kB
+                                 ->  Hash Join (actual time=0.076..11.424 rows=3335 loops=1)
+                                       Hash Cond: (tl.location_id = l.id)
+                                       ->  Seq Scan on tour_locations tl (actual time=0.002..4.326 rows=84469 loops=1)
+                                       ->  Hash (actual time=0.042..0.043 rows=60 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 11kB
+                                             ->  Bitmap Heap Scan on locations l (actual time=0.024..0.034 rows=60 loops=1)
+                                                   Recheck Cond: ((country)::text = 'Італія'::text)
+                                                   Heap Blocks: exact=2
+                                                   ->  Bitmap Index Scan on idx_locations_country (actual time=0.017..0.017 rows=60 loops=1)
+                                                         Index Cond: ((country)::text = 'Італія'::text)
+               ->  Aggregate (actual time=0.012..0.012 rows=1 loops=76)
+                     ->  Index Scan using idx_reviews_tour_created on reviews r (actual time=0.008..0.011 rows=12 loops=76)
+                           Index Cond: (tour_id = t.id)
+ Planning Time: 1.286 ms
+ Execution Time: 13.996 ms
+(33 rows)
+
+
+MongoDB explain(executionStats)
+{
+  winningPlan: 'SORT <- FETCH <- IXSCAN (ix_search)',
+  nReturned: 20,
+  totalKeysExamined: 76,
+  totalDocsExamined: 76,
+  executionTimeMillis: 0
+}

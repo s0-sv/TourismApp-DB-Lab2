@@ -1,0 +1,413 @@
+{
+  "StartedAt": "2026-11-11T14:03:45.2022589+02:00",
+  "Environment": {
+    "PostgreSQL": "17.11 (Debian 17.11-1.pgdg13+2)",
+    "MongoDB": "8.0.34",
+    ".NET": ".NET 10.0.14",
+    "OS": "Arch Linux",
+    "CPU": "AMD Ryzen 5 3600 6-Core Processor",
+    "Логічних ядер": "12",
+    "Розгортання": "Docker (postgres:17, mongo:8.0), той самий хост",
+    "Гарантія запису": "PostgreSQL synchronous_commit=on, MongoDB w:1 j:true"
+  },
+  "DatasetSize": {
+    "tours": 20000,
+    "locations": 1080,
+    "hotels": 720,
+    "tour_locations": 80274,
+    "tour_hotels": 35763,
+    "tour_transports": 39946,
+    "tour_attributes": 93942,
+    "tour_tags": 69806,
+    "reviews": 300361,
+    "tourists": 5000,
+    "bookings": 30000,
+    "payments": 17983
+  },
+  "ConsistencyChecks": [
+    "Деталі туру: перевірено 300 випадкових турів, розбіжностей: 0",
+    "Пошук: перевірено 200 випадкових запитів, розбіжностей у результатах: 0",
+    "Аналітика по країнах: результати співпадають",
+    "Після записів: перевірено 200 турів з новими відгуками/перейменованими готелями, розбіжностей: 0"
+  ],
+  "Results": [
+    {
+      "Scenario": "Деталі туру за id",
+      "Engine": "PostgreSQL (8 SELECT + JOIN)",
+      "Operations": 3000,
+      "Concurrency": 1,
+      "MeanMs": 1.335224500000003,
+      "MedianMs": 1.2999,
+      "P95Ms": 1.5586,
+      "P99Ms": 1.7965,
+      "MinMs": 1.2064,
+      "MaxMs": 2.3212,
+      "OpsPerSecond": 748.816289929287
+    },
+    {
+      "Scenario": "Деталі туру за id",
+      "Engine": "PostgreSQL (json_agg)",
+      "Operations": 3000,
+      "Concurrency": 1,
+      "MeanMs": 1.5496257999999992,
+      "MedianMs": 1.4952,
+      "P95Ms": 2.1411,
+      "P99Ms": 2.6485,
+      "MinMs": 1.2005,
+      "MaxMs": 4.9833,
+      "OpsPerSecond": 645.2651155611748
+    },
+    {
+      "Scenario": "Деталі туру за id",
+      "Engine": "MongoDB",
+      "Operations": 3000,
+      "Concurrency": 1,
+      "MeanMs": 0.35045006666666717,
+      "MedianMs": 0.3314,
+      "P95Ms": 0.4632,
+      "P99Ms": 0.6914,
+      "MinMs": 0.2621,
+      "MaxMs": 1.393,
+      "OpsPerSecond": 2852.669328270543
+    },
+    {
+      "Scenario": "Деталі туру за id, 16 паралельних клієнтів",
+      "Engine": "PostgreSQL (8 SELECT + JOIN)",
+      "Operations": 16000,
+      "Concurrency": 16,
+      "MeanMs": 3.203988275000011,
+      "MedianMs": 2.9759,
+      "P95Ms": 5.1355,
+      "P99Ms": 6.4323,
+      "MinMs": 1.365,
+      "MaxMs": 31.6393,
+      "OpsPerSecond": 4988.785677495647
+    },
+    {
+      "Scenario": "Деталі туру за id, 16 паралельних клієнтів",
+      "Engine": "PostgreSQL (json_agg)",
+      "Operations": 16000,
+      "Concurrency": 16,
+      "MeanMs": 3.460860974999994,
+      "MedianMs": 3.2391,
+      "P95Ms": 5.5283,
+      "P99Ms": 6.6539,
+      "MinMs": 1.3844,
+      "MaxMs": 10.6623,
+      "OpsPerSecond": 4620.153502290036
+    },
+    {
+      "Scenario": "Деталі туру за id, 16 паралельних клієнтів",
+      "Engine": "MongoDB",
+      "Operations": 16000,
+      "Concurrency": 16,
+      "MeanMs": 1.1098346250000017,
+      "MedianMs": 0.901,
+      "P95Ms": 2.6671,
+      "P99Ms": 3.5499,
+      "MinMs": 0.271,
+      "MaxMs": 7.7391,
+      "OpsPerSecond": 14391.061999213529
+    },
+    {
+      "Scenario": "Пошук у каталозі (країна + категорія + ціна, сортування за рейтингом)",
+      "Engine": "PostgreSQL",
+      "Operations": 1000,
+      "Concurrency": 1,
+      "MeanMs": 9.117216900000006,
+      "MedianMs": 9.1039,
+      "P95Ms": 9.8175,
+      "P99Ms": 10.6086,
+      "MinMs": 7.7177,
+      "MaxMs": 11.1946,
+      "OpsPerSecond": 109.67452232002107
+    },
+    {
+      "Scenario": "Пошук у каталозі (країна + категорія + ціна, сортування за рейтингом)",
+      "Engine": "MongoDB",
+      "Operations": 1000,
+      "Concurrency": 1,
+      "MeanMs": 2.325323099999997,
+      "MedianMs": 2.2124,
+      "P95Ms": 3.2106,
+      "P99Ms": 4.0806,
+      "MinMs": 1.6359,
+      "MaxMs": 5.8121,
+      "OpsPerSecond": 429.9618021934931
+    },
+    {
+      "Scenario": "Аналітика: кількість турів і середня ціна по країнах",
+      "Engine": "PostgreSQL",
+      "Operations": 40,
+      "Concurrency": 1,
+      "MeanMs": 59.41877250000001,
+      "MedianMs": 58.2436,
+      "P95Ms": 67.0838,
+      "P99Ms": 72.4541,
+      "MinMs": 51.6782,
+      "MaxMs": 72.4541,
+      "OpsPerSecond": 16.8296244136927
+    },
+    {
+      "Scenario": "Аналітика: кількість турів і середня ціна по країнах",
+      "Engine": "MongoDB",
+      "Operations": 40,
+      "Concurrency": 1,
+      "MeanMs": 121.59806500000002,
+      "MedianMs": 119.8372,
+      "P95Ms": 129.7277,
+      "P99Ms": 137.092,
+      "MinMs": 116.2526,
+      "MaxMs": 137.092,
+      "OpsPerSecond": 8.22379715247734
+    },
+    {
+      "Scenario": "Створення туру з маршрутом, готелями, атрибутами (запис)",
+      "Engine": "PostgreSQL",
+      "Operations": 1000,
+      "Concurrency": 1,
+      "MeanMs": 2.307315000000003,
+      "MedianMs": 2.2185,
+      "P95Ms": 2.9122,
+      "P99Ms": 3.2519,
+      "MinMs": 1.8036,
+      "MaxMs": 7.6166,
+      "OpsPerSecond": 433.3535406089319
+    },
+    {
+      "Scenario": "Створення туру з маршрутом, готелями, атрибутами (запис)",
+      "Engine": "MongoDB",
+      "Operations": 1000,
+      "Concurrency": 1,
+      "MeanMs": 2.279400399999998,
+      "MedianMs": 1.1208,
+      "P95Ms": 4.688,
+      "P99Ms": 4.9581,
+      "MinMs": 0.8852,
+      "MaxMs": 5.782,
+      "OpsPerSecond": 438.66315648408846
+    },
+    {
+      "Scenario": "Додавання відгуку (запис + підтримка рейтингу)",
+      "Engine": "PostgreSQL",
+      "Operations": 2000,
+      "Concurrency": 1,
+      "MeanMs": 0.8821988499999999,
+      "MedianMs": 0.8529,
+      "P95Ms": 1.0259,
+      "P99Ms": 1.5343,
+      "MinMs": 0.7841,
+      "MaxMs": 5.7829,
+      "OpsPerSecond": 1133.3062850899958
+    },
+    {
+      "Scenario": "Додавання відгуку (запис + підтримка рейтингу)",
+      "Engine": "MongoDB",
+      "Operations": 2000,
+      "Concurrency": 1,
+      "MeanMs": 3.7177131500000034,
+      "MedianMs": 2.5439,
+      "P95Ms": 5.9505,
+      "P99Ms": 6.3631,
+      "MinMs": 1.8009,
+      "MaxMs": 9.4299,
+      "OpsPerSecond": 268.9614493385761
+    },
+    {
+      "Scenario": "Перейменування готелю (оновлення довідника)",
+      "Engine": "PostgreSQL",
+      "Operations": 300,
+      "Concurrency": 1,
+      "MeanMs": 0.8806760000000008,
+      "MedianMs": 0.8668,
+      "P95Ms": 0.951,
+      "P99Ms": 1.0469,
+      "MinMs": 0.7915,
+      "MaxMs": 2.242,
+      "OpsPerSecond": 1135.2043519194035
+    },
+    {
+      "Scenario": "Перейменування готелю (оновлення довідника)",
+      "Engine": "MongoDB",
+      "Operations": 300,
+      "Concurrency": 1,
+      "MeanMs": 7.128383666666659,
+      "MedianMs": 6.8024,
+      "P95Ms": 10.7363,
+      "P99Ms": 24.6929,
+      "MinMs": 0.8229,
+      "MaxMs": 42.9762,
+      "OpsPerSecond": 140.28065483009675
+    }
+  ],
+  "Storage": [
+    {
+      "Engine": "PostgreSQL",
+      "Object": "tours",
+      "Rows": 21050,
+      "DataBytes": 4759552,
+      "IndexBytes": 2072576
+    },
+    {
+      "Engine": "PostgreSQL",
+      "Object": "tour_categories",
+      "Rows": 8,
+      "DataBytes": 40960,
+      "IndexBytes": 32768
+    },
+    {
+      "Engine": "PostgreSQL",
+      "Object": "guides",
+      "Rows": 100,
+      "DataBytes": 57344,
+      "IndexBytes": 32768
+    },
+    {
+      "Engine": "PostgreSQL",
+      "Object": "users",
+      "Rows": 5101,
+      "DataBytes": 499712,
+      "IndexBytes": 843776
+    },
+    {
+      "Engine": "PostgreSQL",
+      "Object": "locations",
+      "Rows": 1080,
+      "DataBytes": 155648,
+      "IndexBytes": 57344
+    },
+    {
+      "Engine": "PostgreSQL",
+      "Object": "tour_locations",
+      "Rows": 84469,
+      "DataBytes": 3858432,
+      "IndexBytes": 4628480
+    },
+    {
+      "Engine": "PostgreSQL",
+      "Object": "hotels",
+      "Rows": 720,
+      "DataBytes": 90112,
+      "IndexBytes": 32768
+    },
+    {
+      "Engine": "PostgreSQL",
+      "Object": "tour_hotels",
+      "Rows": 37832,
+      "DataBytes": 1753088,
+      "IndexBytes": 1941504
+    },
+    {
+      "Engine": "PostgreSQL",
+      "Object": "transport_types",
+      "Rows": 8,
+      "DataBytes": 40960,
+      "IndexBytes": 32768
+    },
+    {
+      "Engine": "PostgreSQL",
+      "Object": "tour_transports",
+      "Rows": 42067,
+      "DataBytes": 1998848,
+      "IndexBytes": 1761280
+    },
+    {
+      "Engine": "PostgreSQL",
+      "Object": "tour_attributes",
+      "Rows": 99192,
+      "DataBytes": 5931008,
+      "IndexBytes": 5783552
+    },
+    {
+      "Engine": "PostgreSQL",
+      "Object": "tags",
+      "Rows": 30,
+      "DataBytes": 40960,
+      "IndexBytes": 32768
+    },
+    {
+      "Engine": "PostgreSQL",
+      "Object": "tour_tags",
+      "Rows": 73504,
+      "DataBytes": 2736128,
+      "IndexBytes": 2170880
+    },
+    {
+      "Engine": "PostgreSQL",
+      "Object": "reviews",
+      "Rows": 302461,
+      "DataBytes": 31825920,
+      "IndexBytes": 23068672
+    },
+    {
+      "Engine": "PostgreSQL",
+      "Object": "tourists",
+      "Rows": 5000,
+      "DataBytes": 450560,
+      "IndexBytes": 262144
+    },
+    {
+      "Engine": "MongoDB",
+      "Object": "tours",
+      "Rows": 21050,
+      "DataBytes": 36904960,
+      "IndexBytes": 2469888
+    },
+    {
+      "Engine": "MongoDB",
+      "Object": "reviews",
+      "Rows": 302461,
+      "DataBytes": 13225984,
+      "IndexBytes": 7233536
+    },
+    {
+      "Engine": "MongoDB",
+      "Object": "hotels",
+      "Rows": 720,
+      "DataBytes": 49152,
+      "IndexBytes": 24576
+    },
+    {
+      "Engine": "MongoDB",
+      "Object": "locations",
+      "Rows": 1080,
+      "DataBytes": 45056,
+      "IndexBytes": 28672
+    },
+    {
+      "Engine": "MongoDB",
+      "Object": "tourists",
+      "Rows": 5000,
+      "DataBytes": 102400,
+      "IndexBytes": 65536
+    },
+    {
+      "Engine": "MongoDB",
+      "Object": "guides",
+      "Rows": 100,
+      "DataBytes": 20480,
+      "IndexBytes": 20480
+    },
+    {
+      "Engine": "MongoDB",
+      "Object": "categories",
+      "Rows": 8,
+      "DataBytes": 20480,
+      "IndexBytes": 20480
+    },
+    {
+      "Engine": "MongoDB",
+      "Object": "transport_types",
+      "Rows": 8,
+      "DataBytes": 20480,
+      "IndexBytes": 20480
+    },
+    {
+      "Engine": "MongoDB",
+      "Object": "tags",
+      "Rows": 30,
+      "DataBytes": 20480,
+      "IndexBytes": 20480
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+DEL session:abc123 promo:SUMMER tour:15:views tour:15 user:42:recent user:42:favorites user:77:favorites top:bookings tour:15:bookings
+SET session:abc123 user:42 EX 1800
+GET session:abc123
+TTL session:abc123
+SET promo:SUMMER -10% NX
+SET promo:SUMMER -20% NX
+INCR tour:15:views
+INCR tour:15:views
+INCRBY tour:15:views 100
+HSET tour:15 title "Романтичний Париж" price 25000 category "Екскурсійний" free_seats 12
+HGET tour:15 price
+HINCRBY tour:15 free_seats -2
+HGETALL tour:15
+HEXISTS tour:15 discount
+LPUSH user:42:recent 3 15 8 42
+LTRIM user:42:recent 0 2
+LRANGE user:42:recent 0 -1
+LLEN user:42:recent
+SADD user:42:favorites 3 15 8 21
+SADD user:77:favorites 15 21 30
+SISMEMBER user:42:favorites 8
+SINTER user:42:favorites user:77:favorites
+SUNION user:42:favorites user:77:favorites
+SREM user:42:favorites 3
+SCARD user:42:favorites
+ZADD top:bookings 120 "Романтичний Париж" 95 "Історичний Рим" 140 "Похід на Говерлу" 80 "Лижний тур в Карпати"
+ZINCRBY top:bookings 30 "Історичний Рим"
+ZREVRANGE top:bookings 0 2 WITHSCORES
+ZREVRANK top:bookings "Лижний тур в Карпати"
+ZRANGEBYSCORE top:bookings 100 +inf
+MULTI
+HINCRBY tour:15 free_seats -1
+RPUSH tour:15:bookings user:42
+EXEC
+HGET tour:15 free_seats
+EXISTS tour:15
+TYPE top:bookings
+EXPIRE tour:15:views 60
+DEL promo:SUMMER
+SCAN 0 MATCH * COUNT 100

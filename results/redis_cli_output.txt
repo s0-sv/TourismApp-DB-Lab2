@@ -1,0 +1,78 @@
+0
+OK
+user:42
+1800
+OK
+
+1
+2
+102
+4
+25000
+10
+title
+Романтичний Париж
+price
+25000
+category
+Екскурсійний
+free_seats
+10
+0
+4
+OK
+42
+8
+15
+3
+4
+3
+1
+15
+21
+3
+8
+15
+21
+30
+1
+3
+4
+125
+Похід на Говерлу
+140
+Історичний Рим
+125
+Романтичний Париж
+120
+3
+Романтичний Париж
+Історичний Рим
+Похід на Говерлу
+OK
+QUEUED
+QUEUED
+9
+1
+9
+1
+zset
+1
+1
+0
+lab2:cache:tour:15
+tour:15
+top:bookings
+user:77:favorites
+tour:15:views
+lab2:session:abc123
+user:42:recent
+lab2:user:42:recent
+lab2:tour:15
+lab2:tour:15:bookings
+tour:15:bookings
+session:abc123
+lab2:top:bookings
+lab2:user:42:favorites
+lab2:user:77:favorites
+user:42:favorites

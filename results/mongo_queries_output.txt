@@ -1,0 +1,232 @@
+--- findOne: документ туру з вкладеними даними
+{
+  _id: 15,
+  title: 'Пляжний відпочинок: Брюссель та околиці №15',
+  price: Decimal128('68650'),
+  category: {
+    _id: 4,
+    name: 'Пляжний відпочинок'
+  },
+  route: [
+    {
+      location: {
+        city: 'Брюссель'
+      }
+    },
+    {
+      location: {
+        city: 'Утрехт'
+      }
+    },
+    {
+      location: {
+        city: 'Гент'
+      }
+    },
+    {
+      location: {
+        city: 'Гент'
+      }
+    },
+    {
+      location: {
+        city: 'Брюгге'
+      }
+    },
+    {
+      location: {
+        city: 'Гент'
+      }
+    }
+  ],
+  hotels: [
+    {
+      _id: 481,
+      name: "Рів'єра Брюгге 1",
+      stars: 5,
+      nights: 3,
+      location: {
+        _id: 732,
+        name: 'Художня галерея (Брюгге)',
+        country: 'Бельгія',
+        city: 'Брюгге'
+      }
+    }
+  ],
+  attributes: {
+    beach_type: 'скелястий',
+    all_inclusive: true,
+    sea_view: false,
+    pool: true,
+    visa_required: true,
+    meals: 'напівпансіон'
+  },
+  rating: {
+    count: 5,
+    sum: 21,
+    avg: 4.2
+  }
+}
+--- find: пошук за країною, категорією та ціною, сортування за рейтингом
+{
+  _id: 2003,
+  title: 'Гірський туризм: Порту та околиці №2003',
+  price: Decimal128('16300'),
+  rating: {
+    avg: 4.5
+  }
+}
+{
+  _id: 1910,
+  title: 'Гірський туризм: Мілан та околиці №1910',
+  price: Decimal128('13500'),
+  rating: {
+    avg: 4.363636363636363
+  }
+}
+{
+  _id: 7999,
+  title: 'Гірський туризм: Флоренція та околиці №7999',
+  price: Decimal128('20150'),
+  rating: {
+    avg: 4.333333333333333
+  }
+}
+{
+  _id: 5754,
+  title: 'Гірський туризм: Батумі та околиці №5754',
+  price: Decimal128('19150'),
+  rating: {
+    avg: 4.24
+  }
+}
+{
+  _id: 394,
+  title: 'Гірський туризм: Пхукет та околиці №394',
+  price: Decimal128('29250'),
+  rating: {
+    avg: 4.1923076923076925
+  }
+}
+--- find: пошук за довільним атрибутом (гнучка схема)
+{
+  _id: 19,
+  title: 'Пляжний відпочинок: Дебрецен та околиці №19',
+  attributes: {
+    beach_type: 'гальковий',
+    all_inclusive: true,
+    sea_view: true,
+    pool: true
+  }
+}
+{
+  _id: 67,
+  title: 'Пляжний відпочинок: Церматт та околиці №67',
+  attributes: {
+    beach_type: 'скелястий',
+    all_inclusive: true,
+    sea_view: true,
+    pool: true,
+    visa_required: false
+  }
+}
+{
+  _id: 75,
+  title: 'Пляжний відпочинок: Зальцбург та околиці №75',
+  attributes: {
+    beach_type: 'піщаний',
+    all_inclusive: true,
+    sea_view: true,
+    pool: false
+  }
+}
+кількість турів з max_altitude_m > 4000: 515
+--- find: тури з тегами UNESCO та історія
+235
+--- insertOne: новий тур одним документом
+{
+  _id: 999999,
+  title: 'Демо-тур: Карпати',
+  attributes: {
+    difficulty: 3,
+    max_altitude_m: 2061,
+    tent_included: true
+  }
+}
+--- updateOne: зміна ціни та додавання атрибута
+{
+  _id: 999999,
+  price: Decimal128('8900'),
+  attributes: {
+    difficulty: 3,
+    max_altitude_m: 2061,
+    tent_included: true,
+    guide_language: 'uk'
+  },
+  tags: [
+    'гори',
+    'активний',
+    'знижка'
+  ]
+}
+--- aggregate: середня ціна та кількість турів по категоріях
+{
+  _id: 'Пляжний відпочинок',
+  tours: 2613,
+  avgPrice: Decimal128('40186.39494833524684270952927669346'),
+  avgRating: 3.5316795142600483
+}
+{
+  _id: 'Екстрим',
+  tours: 2573,
+  avgPrice: Decimal128('40516.55654877574815390594636610960'),
+  avgRating: 3.5301250875243984
+}
+{
+  _id: 'Гірський туризм',
+  tours: 2570,
+  avgPrice: Decimal128('40693.01556420233463035019455252918'),
+  avgRating: 3.5941322017271595
+}
+{
+  _id: 'Сімейний',
+  tours: 2562,
+  avgPrice: Decimal128('40664.48087431693989071038251366120'),
+  avgRating: 3.5533621210849273
+}
+{
+  _id: 'Лижний',
+  tours: 2551,
+  avgPrice: Decimal128('40302.41081928655429243433947471580'),
+  avgRating: 3.556738428256338
+}
+{
+  _id: 'Екскурсійний',
+  tours: 2542,
+  avgPrice: Decimal128('40260.79858379228953579858379228954'),
+  avgRating: 3.5662861073058445
+}
+{
+  _id: 'Круїз',
+  tours: 2539,
+  avgPrice: Decimal128('40569.06262307995273729814887751083'),
+  avgRating: 3.601059489001365
+}
+{
+  _id: 'Гастрономічний',
+  tours: 2509,
+  avgPrice: Decimal128('40336.01036269430051813471502590674'),
+  avgRating: 3.606696064288025
+}
+--- aggregate: $lookup відгуків для туру
+{
+  _id: 15,
+  title: 'Пляжний відпочинок: Брюссель та околиці №15',
+  reviewsInCollection: 5,
+  embeddedCount: 5
+}
+--- deleteOne
+{
+  acknowledged: true,
+  deletedCount: 1
+}
